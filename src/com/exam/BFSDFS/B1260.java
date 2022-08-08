@@ -1,4 +1,4 @@
-package com.exam;
+package com.exam.BFSDFS;
 
 import java.util.*;
 
@@ -74,6 +74,14 @@ public class B1260 {
         for(int i=0; i<L; i++){
             for(int j=0; j<2; j++){
                 Board[i][j] = sc.nextInt();
+            }
+        }
+        for(int i=0; i<L; i++){
+            if(Board[i][0]>Board[i][1]){
+                int temp;
+                temp = Board[i][0];
+                Board[i][0] = Board[i][1];
+                Board[i][1] = temp;
             }
         }
         visited = new boolean[N];

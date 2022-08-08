@@ -1,4 +1,4 @@
-package com.exam;
+package com.exam.BFSDFS;
 
 import java.util.*;
 
