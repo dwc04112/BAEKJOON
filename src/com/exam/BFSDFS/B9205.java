@@ -1,41 +1,69 @@
 package com.exam.BFSDFS;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class B9205 {
-    static int t;
+    static int t, n;
     static int[][] Board;
+    static boolean[] visited;
+    static ArrayList<String> res = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         t = sc.nextInt();
-        Board = new int[t][104];
-
         for (int i=0; i<t; i++){
-            int n = sc.nextInt();
-            Board[i][0] = n+2;
-            for(int j=1; j<(n+2)*2+1; j++){
-                Board[i][j] = sc.nextInt();
+            n = sc.nextInt();
+            Board = new int[n+2][2];
+            visited = new boolean[n+2];
+
+            for(int j=0; j<n+2; j++){
+                Board[j][0] = sc.nextInt();
+                Board[j][1] = sc.nextInt();
             }
+            int sRow = Board[0][0];
+            int sCol = Board[0][1];
+            int fRow = Board[n+1][0];
+            int fCol = Board[n+1][1];
+            bfs(sRow , sCol, fRow ,fCol);
         }
 
-        for(int i=0; i<t; i++){
-            System.out.println(bfs(i));
+        for(String r : res){
+            System.out.println(r);
         }
     }
 
 
-    private static String bfs(int i) {
+    private static void bfs(int sRow, int sCol, int fRow, int fCol) {
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(new Node(sRow, sCol));
+        visited[0] = true;
 
-        for(int n=1; n<Board[i][0]; n++){
-            int x= Math.abs(Board[i][2*n+1]-Board[i][2*n-1]);
-            int y= Math.abs(Board[i][2*n+2]-Board[i][2*n]);
-            if((x+y)>1000) {
-                return "sad";
+        boolean finish = false;
+        while(!queue.isEmpty()){
+            Node temp = queue.remove();
+            if(temp.r == fRow && temp.c == fCol){
+                finish = true;
+                break;
+            }
+            for(int i = 0; i<n+2; i++){
+                if(Math.abs(temp.r - Board[i][0]) + Math.abs(temp.c - Board[i][1]) > 1000) continue;
+                if(visited[i]) continue;
+                visited[i] = true;
+                queue.add(new Node(Board[i][0] , Board[i][1]));
             }
         }
-        return "happy";
+        if(finish) {
+            res.add("happy");
+        }else{
+            res.add("sad");
+        }
+    }
 
+    static class Node{
+        int r,c;
+        Node(int row, int col){
+            r = row;
+            c = col;
+        }
     }
 }
