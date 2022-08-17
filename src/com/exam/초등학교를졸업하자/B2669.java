@@ -19,12 +19,16 @@ public class B2669 {
                 }
             }
         }
+        // 만든 사각형이 보고싶으면 아래 주석
+        /*
         for(int i=10; i>=0; i--){
             for(int j=0; j<10; j++){
                 System.out.print(Board[i][j] +" ");
             }
             System.out.println("");
         }
+
+         */
 
         int res=0;
         for(int i=0; i<101; i++){
