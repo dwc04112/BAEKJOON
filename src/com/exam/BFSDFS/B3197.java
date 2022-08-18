@@ -28,7 +28,7 @@ public class B3197 {
                 return true;
             }
 
-            for(int i=0; i<4; ++i){
+            for(int i=0; i<4; i++){
                 int nr = temp.row+D[i][0];
                 int nc = temp.col+D[i][1];
 
@@ -49,10 +49,10 @@ public class B3197 {
 
     private static void melt() {
         int size = meltQ.size();
-        for(int f=0; f<size; ++f) {
+        for(int f=0; f<size; f++) {
             Node temp = meltQ.remove();
 
-            for(int i=0; i<4; ++i){
+            for(int i=0; i<4; i++){
                 int nr = temp.row+D[i][0];
                 int nc = temp.col+D[i][1];
                 if(nr<0||nr>=R||nc<0||nc>=C) continue;
