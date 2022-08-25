@@ -1,7 +1,6 @@
 package com.exam.자료구조;
-
+// 집합의 표현 Union - find
 import java.util.Scanner;
-
 public class B1717 {
     static int N,M;
     static int[] parent = new int[1000001];
