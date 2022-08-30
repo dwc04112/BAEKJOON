@@ -34,8 +34,11 @@ public class B2512 {
                 }
             }
             if(sum > M){
+                // 만약 예산을 초과할 경우
+                // 최대값을 절반으로 줄여서
                 max = mid -1;
             }else{
+                // 예산이 남으면 최소값을 min으로 두고 계산
                 min = mid +1;
                 res = mid;
             }
