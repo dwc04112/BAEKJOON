@@ -25,7 +25,6 @@ public class B2294 {
                     dp[i] = Math.min(dp[i-j] + dp[j], dp[i]);
                 }
             }
-            System.out.println(Arrays.toString(dp));
         }
         if(dp[k]==0) System.out.println(-1);
         else System.out.println(dp[k]);
