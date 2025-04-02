@@ -32,10 +32,13 @@ public class B11404 {
             nd[x][y] = Math.min(nd[x][y], cost);
         }
 
+        // 중간에 방문하는 노드 n
         for (int n = 1; n <= N; n++) {
+            // 시작노드
             for (int i = 1; i <= N; i++) {
+                // 도착노드
                 for (int j = 1; j <= N; j++) {
-
+                    // 현재 노드 > 시작노드->중간노드 중간노드->도착노드
                     if(nd[i][j] > nd[i][n] + nd[n][j]) {
                         nd[i][j] = nd[i][n] + nd[n][j];
                     }
