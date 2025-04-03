@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class B11404 {
     static int N;
     static int C;
-    static int IFN = 999999;
+    static int IFN = 1000000001;
     public static void main(String[] args) {
         Scanner sc =  new Scanner(System.in);
         N = sc.nextInt();
