@@ -1,15 +1,14 @@
 package com.exam.초등학교를졸업하자;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class B2650 {
 
     static int N;
     static List<int[]> board;
+    static int cross = 0;
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -21,29 +20,57 @@ public class B2650 {
             int y1 = sc.nextInt();
             int x2 = sc.nextInt();
             int y2 = sc.nextInt();
-            addLine(x1, y1, x2, y2);
+
+            if (x1 > x2) {
+                addLine(new int[] {x2, y2, x1, y1, 0});
+            } else {
+                addLine(new int[] {x1, y1, x2, y2, 0});
+            }
         }
+
+        System.out.println(cross);
+        int max = 0;
+        for (int[] l : board) {
+            max = Math.max(l[4], max);
+        }
+        System.out.println(max);
     }
 
-    public static void addLine(int x1, int y1, int x2, int y2) {
-
-
-        if(!board.isEmpty()) {
-
-            for (int[] ints: board) {
-                int dx1 = ints[0];
-                int dy1 = ints[1];
-                int dx2 = ints[2];
-                int dy2 = ints[3];
-
-                // 같은 변에 점이 하나라도 있는 경우
-                if (x2==dx2 || x1==dx2 || x2==dx1 || x1==dx1) {
-
+    public static void addLine(int[] x) {
+        for (int[] l: board) {
+            int cnt = 0;
+            if(x[0] == x[2]) {
+                if (l[0] == x[0]) {
+                    if ((l[3] > l[1] && l[1] > x[1]) || x[3] < l[1] && l[1] < x[1]) cnt++;
+                }
+                if (l[2] == x[0]) {
+                    if ((x[3] > l[3] && l[3] > x[1]) || x[3] < l[3] && l[3] < x[1]) cnt++;
+                }
+            } else if((x[0]==3 && x[2]==4) || (x[2]==3 && x[0]==4) || (x[0]==1 && x[2]==2) || (x[2]==1 && x[0]==2)) {
+                if(x[0]==l[0] && x[1]>l[1]) cnt++;
+                if(x[0]==l[2] && x[1]>l[3]) cnt++;
+                if(x[2]==l[0] && x[3]>l[1]) cnt++;
+                if(x[2]==l[2] && x[3]>l[3]) cnt++;
+                if(l[0]!=x[0] && l[0]!=x[2] && l[0]!=l[2]) cnt++;
+            } else {
+                if(x[0]==1 || x[2]==1) {
+                    if(x[0]==l[0] && x[1]>l[1]) cnt++;
+                    if(x[0]==l[2] && x[1]>l[3]) cnt++;
+                    if(x[2]==l[0] && x[3]>l[1]) cnt++;
+                    if(x[2]==l[2] && x[3]>l[3]) cnt++;
+                }else {
+                    if(x[0]==l[0] && x[1]<l[1]) cnt++;
+                    if(x[0]==l[2] && x[1]<l[3]) cnt++;
+                    if(x[2]==l[0] && x[3]<l[1]) cnt++;
+                    if(x[2]==l[2] && x[3]<l[3]) cnt++;
                 }
             }
-
+            if(cnt == 1) {
+                cross ++;
+                l[4] ++;
+                x[4] ++;
+            }
         }
-
-        board.add(new int[] {x1, y1, x2, y2});
+        board.add(x);
     }
 }
