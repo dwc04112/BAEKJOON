@@ -16,61 +16,40 @@ public class B2650 {
         board = new LinkedList<>();
 
         for (int i = 0; i < N/2; i++) {
-            int x1 = sc.nextInt();
-            int y1 = sc.nextInt();
-            int x2 = sc.nextInt();
-            int y2 = sc.nextInt();
+            int p1 = getPnt(sc.nextInt(), sc.nextInt());
+            int p2 = getPnt(sc.nextInt(), sc.nextInt());
 
-            if (x1 > x2) {
-                addLine(new int[] {x2, y2, x1, y1, 0});
+            if (p1 > p2) {
+                addLine(new int[] {p2, p1, 0});
             } else {
-                addLine(new int[] {x1, y1, x2, y2, 0});
+                addLine(new int[] {p1, p2, 0});
             }
         }
 
         System.out.println(cross);
         int max = 0;
         for (int[] l : board) {
-            max = Math.max(l[4], max);
+            max = Math.max(l[2], max);
         }
         System.out.println(max);
     }
 
     public static void addLine(int[] x) {
-        for (int[] l: board) {
-            int cnt = 0;
-            if(x[0] == x[2]) {
-                if (l[0] == x[0]) {
-                    if ((l[3] > l[1] && l[1] > x[1]) || x[3] < l[1] && l[1] < x[1]) cnt++;
-                }
-                if (l[2] == x[0]) {
-                    if ((x[3] > l[3] && l[3] > x[1]) || x[3] < l[3] && l[3] < x[1]) cnt++;
-                }
-            } else if((x[0]==3 && x[2]==4) || (x[2]==3 && x[0]==4) || (x[0]==1 && x[2]==2) || (x[2]==1 && x[0]==2)) {
-                if(x[0]==l[0] && x[1]>l[1]) cnt++;
-                if(x[0]==l[2] && x[1]>l[3]) cnt++;
-                if(x[2]==l[0] && x[3]>l[1]) cnt++;
-                if(x[2]==l[2] && x[3]>l[3]) cnt++;
-                if(l[0]!=x[0] && l[0]!=x[2] && l[0]!=l[2]) cnt++;
-            } else {
-                if(x[0]==1 || x[2]==1) {
-                    if(x[0]==l[0] && x[1]>l[1]) cnt++;
-                    if(x[0]==l[2] && x[1]>l[3]) cnt++;
-                    if(x[2]==l[0] && x[3]>l[1]) cnt++;
-                    if(x[2]==l[2] && x[3]>l[3]) cnt++;
-                }else {
-                    if(x[0]==l[0] && x[1]<l[1]) cnt++;
-                    if(x[0]==l[2] && x[1]<l[3]) cnt++;
-                    if(x[2]==l[0] && x[3]<l[1]) cnt++;
-                    if(x[2]==l[2] && x[3]<l[3]) cnt++;
-                }
-            }
-            if(cnt == 1) {
-                cross ++;
-                l[4] ++;
-                x[4] ++;
+        for (int[] l : board) {
+            if((l[0] > x[0] && l[0] < x[1] && l[1] > x[1]) || (x[0] > l[0] && x[0] < l[1] && x[1] > l[1])) {
+                cross++;
+                l[2] ++;
+                x[2] ++;
             }
         }
         board.add(x);
+    }
+
+    // 시계방향으로 수 구하기
+    public static int getPnt(int x, int y) {
+        if (x == 1) return y;
+        else if (x == 2) return 51 * 2 + 51 - y;
+        else if (x == 3) return 51 * 3 + 51 - y;
+        else return 51 + y;
     }
 }
