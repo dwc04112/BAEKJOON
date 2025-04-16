@@ -13,6 +13,6 @@ public class B23971 {
         int hy = (int) Math.ceil((double) H / (1+y));
         int wx = (int) Math.ceil((double) W / (1+x));
 
-        System.out.println(hy*wx);
+        System.out.println(hy * wx);
     }
 }
