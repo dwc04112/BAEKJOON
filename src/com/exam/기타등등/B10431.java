@@ -20,36 +20,28 @@ public class B10431 {
 
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(bf.readLine(), " ");
-            Integer.parseInt(st.nextToken());
+            int num = Integer.parseInt(st.nextToken());
+            int tot = 0;
             board.add(new ArrayList<>());
+
             for (int j = 0; j < 20; j++) {
                 board.get(i).add(Integer.parseInt(st.nextToken()));
-            }
-        }
 
-        for (int i = 0; i < N; i++) {
-
-            if(i==N-1) {
-                System.out.println(i+1+" "+calc(i));
-            }else {
-                System.out.println(i+1+" "+calc(i)+" ");
-            }
-        }
-    }
-
-
-    static private int calc(int n) {
-        int total = 0;
-        for (int i = 19; i >= 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if(board.get(n).get(i) < board.get(n).get(j)) {
-                    total += i-j;
-                    int addNum = board.get(n).get(i);
-                    board.get(n).remove(i);
-                    board.get(n).add(j, addNum);
+                int idx = 0;
+                while(true) {
+                    if(idx == j) break;
+                    if(board.get(i).get(idx) > board.get(i).get(j)) {
+                        tot += j-idx;
+                        int addNum = board.get(i).get(j);
+                        board.get(i).remove(j);
+                        board.get(i).add(idx, addNum);
+                        break;
+                    }
+                    idx ++;
                 }
             }
+
+            System.out.println(num + " " + tot);
         }
-        return total;
     }
 }
