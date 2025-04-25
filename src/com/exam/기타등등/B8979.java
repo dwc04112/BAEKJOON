@@ -37,5 +37,6 @@ public class B8979 {
             if(score[P] < score[i]) cnt++;
         }
         System.out.println(cnt);
+        br.close();
     }
 }
