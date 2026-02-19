@@ -1,18 +1,14 @@
 package com.exam.BFSDFS;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.ArrayDeque;
 import java.util.Scanner;
 
 public class B5427 {
 
-    static int[][] D = {{0,-1},{0,1},{-1,0},{1,0}}; // 상 하 좌 우
-    static int X,Y;
-    static Queue<Fire> fires;
+    static final int[][] D = {{0,-1},{0,1},{-1,0},{1,0}}; // 상 하 좌 우
+    static int X, Y;
+    static ArrayDeque<Fire> fires;
     static char[][] board;
 
     public static void main(String[] args) {
@@ -24,8 +20,7 @@ public class B5427 {
             X = sc.nextInt();
             Y = sc.nextInt();
             board = new char[Y][X];
-            boolean[][] visited = new boolean[Y][X];
-            fires = new LinkedList<>();
+            fires = new ArrayDeque<>();
 
             Node node = null;
             for (int j = 0; j < Y; j++) {
@@ -34,34 +29,42 @@ public class B5427 {
                 for (int k = 0; k < charArray.length; k++) {
                     char x = charArray[k];
                     if(x == '@') {
-                        node = new Node(k,j,0, visited);
+                        node = new Node(k, j);
                         board[j][k] = '.';
                     }
                     else {
-                        if(x == '*') fires.add(new Fire(k,j));
+                        if(x == '*') fires.add(new Fire(k, j));
                         board[j][k] = x;
                     }
                 }
             }
 
-            move(node);
+            int result = move(node);
+            if (result > 0) {
+                System.out.println(result);
+            } else {
+                System.out.println("IMPOSSIBLE");
+            }
         }
     }
 
-    public static void move(Node node){
-        List<Integer> successList = new ArrayList<>();
-        Queue<Node> queue = new LinkedList<>();
+    public static int move(Node node){
+        boolean[][] visited = new boolean[Y][X];
+        ArrayDeque<Node> queue = new ArrayDeque<>();
         queue.add(node);
+        visited[node.y][node.x] = true;
+
+        int time = 0;
 
         while(!queue.isEmpty()) {
 
             // 불 이동
             int fireCount = fires.size();
             for (int x = 0; x < fireCount; x++) {
-                Fire fire = fires.remove();
+                Fire fire = fires.poll();
                 for (int i = 0; i < 4; i++) {
-                    int nx = fire.getX() + D[i][0];
-                    int ny = fire.getY() + D[i][1];
+                    int nx = fire.x + D[i][0];
+                    int ny = fire.y + D[i][1];
 
                     if(nx < 0 || nx >= X || ny < 0 || ny >= Y) continue;
                     if(board[ny][nx]=='#' || board[ny][nx]=='*') continue;
@@ -74,79 +77,46 @@ public class B5427 {
             // node 이동
             int nodeCount = queue.size();
             for (int x = 0; x < nodeCount; x++) {
-                Node nd = queue.remove();
+                Node nd = queue.poll();
+
                 for (int i = 0; i < 4; i++) {
-                    int nx = nd.getX() + D[i][0];
-                    int ny = nd.getY() + D[i][1];
-                    int nm = nd.getM() + 1;
-                    boolean[][] visited = nd.getVisited();
+                    int nx = nd.x + D[i][0];
+                    int ny = nd.y + D[i][1];
 
                     // 탈출 case
                     if(nx < 0 || nx >= X || ny < 0 || ny >= Y) {
-                        successList.add(nm);
-                        continue;
+                        return time + 1;
                     }
 
                     if(visited[ny][nx]) continue;
                     if(board[ny][nx]=='#' || board[ny][nx]=='*') continue;
                     visited[ny][nx] = true;
 
-                    queue.add(new Node(nx, ny, nm, visited));
+                    queue.add(new Node(nx, ny));
                 }
             }
+
+            time++;
         }
 
-        if (successList.isEmpty()) {
-            System.out.println("IMPOSSIBLE");
-            return;
-        }
-
-        System.out.println( Collections.min(successList) );
+        return 0;
     }
 
     public static class Fire {
-        int x,y;
+        int x, y;
 
         public Fire(int x, int y) {
             this.x = x;
             this.y = y;
         }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
     }
 
     public static class Node {
-        int x,y,m;
+        int x, y;
 
-        boolean[][] visited;
-
-        public Node(int x, int y, int m, boolean[][] visited) {
+        public Node(int x, int y) {
             this.x = x;
             this.y = y;
-            this.m = m;
-            this.visited = visited;
-        }
-
-        public boolean[][] getVisited() {
-            return visited;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public int getM() {
-            return m;
         }
     }
 }
